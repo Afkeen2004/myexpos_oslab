@@ -1,0 +1,42 @@
+alias funcnum R1;
+if(funcnum==1) then
+	//incrementing wait_mem_count of systemstatustable
+	[SYSTEM_STATUS_TABLE+3]=[SYSTEM_STATUS_TABLE+3]+1;
+	//while no free memory page is available
+	while([SYSTEM_STATUS_TABLE+2]==0) do
+		[PROCESS_TABLE+[SYSTEM_STATUS_TABLE+1]*16+4]=WAIT_MEM;
+		multipush(R0,R1);
+		call SCHEDULER;
+		multipop(R0,R1);
+	endwhile;
+	[SYSTEM_STATUS_TABLE+2]=[SYSTEM_STATUS_TABLE+2]-1;
+	[SYSTEM_STATUS_TABLE+3]=[SYSTEM_STATUS_TABLE+3]-1;
+	alias counter R2;
+	counter=0;
+	while([MEMORY_FREE_LIST+counter]==1) do
+		counter=counter+1;
+	endwhile;
+	R0=counter;
+	[MEMORY_FREE_LIST+counter]=1;
+	breakpoint;
+	return;
+endif;
+if(funcnum==2) then
+	alias pageno R2;
+	[MEMORY_FREE_LIST+pageno]=[MEMORY_FREE_LIST+pageno]-1;
+	if([MEMORY_FREE_LIST+pageno]==0) then
+		[SYSTEM_STATUS_TABLE+2]=[SYSTEM_STATUS_TABLE+2]+1;
+	endif;
+	alias counter R3;
+	counter=0;
+	while(counter<16) do
+		if([PROCESS_TABLE+counter*16+4]==WAIT_MEM) then
+			[PROCESS_TABLE+counter*16+4]=READY;	
+		endif;
+		
+		counter=counter+1;
+	endwhile;
+	breakpoint;
+	return;
+endif;
+return;

@@ -1,0 +1,10 @@
+load --library ../expl/library.lib
+load --idle /root/myexpos/expl/expl_progs/stage12_idle.xsm
+load --init /root/myexpos/expl/expl_progs/stage13_assg1_odd.xsm
+load --int=10 ../spl/spl_progs/stage14_assg1_int10.xsm
+load --int=7 ../spl/spl_progs/stage10_int7.xsm
+load --exhandler ../spl/spl_progs/stage14_assg1_int10.xsm
+load --int=timer ../spl/spl_progs/stage14_assg1_timer.xsm
+load --module 7 ../spl/spl_progs/stage14_assg1_bootmodule.xsm
+load --module 5 ../spl/spl_progs/stage14_assg1_scheduler.xsm
+load --os ../spl/spl_progs/os_startup_stage13.xsm

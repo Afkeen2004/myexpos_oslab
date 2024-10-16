@@ -1,0 +1,5 @@
+alias counter R0;
+R0=1;
+while(counter<10) do
+counter=counter+1;
+endwhile;

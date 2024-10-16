@@ -1,0 +1,13 @@
+alias counter R0;
+counter=1;
+alias n R1;
+n=20;
+alias num R3;
+alias sum R2;
+sum=0;
+while(counter <=20) do
+num=counter*counter;
+sum=sum+num;
+breakpoint;
+counter=counter+1;
+endwhile;

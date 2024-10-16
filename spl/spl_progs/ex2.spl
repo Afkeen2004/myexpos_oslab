@@ -1,0 +1,4 @@
+alias num R0;
+num=20;
+num=(num)*(num+1)*(2*num+1)/6;
+print num;
