@@ -1,6 +1,6 @@
 load --library ../expl/library.lib
-load --idle /root/myexpos/expl/expl_progs/stage12_idle.xsm
-load --init /root/myexpos/expl/expl_progs/stage16_assg_init.xsm
+load --idle ../expl/expl_progs/stage12_idle.xsm
+load --init ../expl/expl_progs/stage16_assg_init.xsm
 load --int=10 ../spl/spl_progs/stage14_assg1_int10.xsm
 load --int=7 ../spl/spl_progs/stage15_int7.xsm
 load --int=6 ../spl/spl_progs/stage16_int6.xsm

@@ -1,0 +1,81 @@
+alias functionNum R1;
+alias currentPID R2;
+
+if(functionNum==3) then
+	while([DISK_STATUS_TABLE]==1) do
+		[PROCESS_TABLE+[SYSTEM_STATUS_TABLE+1]*16+4]=WAIT_DISK;
+		multipush(R1,R2);
+		call MOD_5;
+		multipop(R1,R2);
+	endwhile;
+	[DISK_STATUS_TABLE]=1;
+	[DISK_STATUS_TABLE+4]=currentPID;
+	return;
+endif;
+//acquire semaphore
+if(functionNum==6) then
+	alias pid R2;
+	alias counter R3;
+	counter=0;
+	while(counter < MAX_SEM_COUNT && [SEMAPHORE_TABLE+counter*4+1]!=0) do
+		counter=counter+1;
+	endwhile;
+	if(counter==MAX_SEM_COUNT) then
+		R0=-1;
+	endif;
+	[SEMAPHORE_TABLE+counter*4]=-1;
+	[SEMAPHORE_TABLE+counter*4+1]=1;
+	R0=counter;
+	return;	
+	
+endif;
+//release semaphore
+if(functionNum==7) then
+	alias semaphore_table_index R2;
+	alias pid R3;
+	if(pid==[SEMAPHORE_TABLE+semaphore_table_index*4]) then
+		alias counter R4;
+		counter=0;
+		while(counter<16) do
+			if([PROCESS_TABLE+counter*16+4]==WAIT_SEMAPHORE && [PROCESS_TABLE+counter*16+5]==semaphore_table_index) then
+				[PROCESS_TABLE+counter*16+4]=READY;
+				[PROCESS_TABLE+counter*16+5]=-1;
+			endif;
+			counter=counter+1;
+		endwhile;
+		[SEMAPHORE_TABLE+semaphore_table_index*4+1]=[SEMAPHORE_TABLE+semaphore_table_index*4+1]-1;
+		[SEMAPHORE_TABLE+semaphore_table_index*4]=-1;
+	endif;
+	return;
+	
+endif;
+if(functionNum==8) then
+	while([TERMINAL_STATUS_TABLE]==1) do
+		[PROCESS_TABLE+[SYSTEM_STATUS_TABLE+1]*16+4]=WAIT_TERMINAL;
+		multipush(R1,R2);
+		call MOD_5;
+		multipop(R1,R2);
+	endwhile;
+	[TERMINAL_STATUS_TABLE]=1;
+	[TERMINAL_STATUS_TABLE+1]=currentPID;
+	return;
+endif;
+if(functionNum==9) then
+	alias PID R4;
+	PID=[TERMINAL_STATUS_TABLE+1];
+	if(PID!=currentPID) then
+		R0=-1;
+		return;
+	endif;
+	[TERMINAL_STATUS_TABLE]=0;
+	alias counter R5;
+	counter=0;
+	while(counter<=15) do
+		if([PROCESS_TABLE+(counter*16)+4]==WAIT_TERMINAL) then
+		[PROCESS_TABLE+(counter*16)+4]=READY;
+		endif;
+		counter=counter+1;
+	endwhile;
+	R0=0;
+	return;
+endif;

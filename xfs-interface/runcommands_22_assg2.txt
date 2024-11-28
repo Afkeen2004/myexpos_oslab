@@ -1,0 +1,23 @@
+load --library ../expl/library.lib
+load --idle /root/myexpos/expl/expl_progs/stage12_idle.xsm
+load --init /root/myexpos/expl/expl_progs/stage22_init_assg2.xsm
+load --int=10 ../spl/spl_progs/stage20_int10.xsm
+load --int=7 ../spl/spl_progs/stage15_int7.xsm
+load --int=6 ../spl/spl_progs/stage16_int6.xsm
+load --int=9 ../spl/spl_progs/stage19_exec.xsm
+load --int=8 ../spl/spl_progs/stage22_fork.xsm
+load --int=11 ../spl/spl_progs/stage21_process_synch_fns.xsm
+load --int=15 ../spl/spl_progs/stage21_shutdownsyscall.xsm
+load --int=13 ../spl/spl_progs/stage22_int13.xsm
+load --int=14 ../spl/spl_progs/stage22_int14.xsm
+load --exhandler ../spl/spl_progs/stage19_exceptionhandler.xsm
+load --int=timer ../spl/spl_progs/stage14_assg1_timer.xsm
+load --int=console ../spl/spl_progs/stage16_console_interrupt.xsm
+load --int=disk ../spl/spl_progs/stage18_disk_interrupt.xsm
+load --module 7 ../spl/spl_progs/stage22_bootmodule.xsm
+load --module 5 ../spl/spl_progs/stage20_scheduler.xsm
+load --module 4 ../spl/spl_progs/stage18_devicemanager.xsm
+load --module 1 ../spl/spl_progs/stage22_processmanager.xsm
+load --module 2 ../spl/spl_progs/stage19_memorymanager.xsm
+load --module 0 ../spl/spl_progs/stage22_resourcemanager.xsm
+load --os ../spl/spl_progs/os_startup_stage13.xsm

@@ -1,9 +1,11 @@
 loadi(65,7);
 loadi(66,8);
 
-loadi(83,69);
+//loadi(83,69);
 
-loadi(88,70);
+loadi(88,70); //even file
+
+loadi(83,71); //primes?
 
 loadi(2,15);
 loadi(3,16);
